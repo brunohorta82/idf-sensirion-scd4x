@@ -8,7 +8,7 @@
 #include <cstring>
 
 
-// CO2Detection::SCD4xSensor *_scd4xSensor;
+CO2Detection::SCD4xSensor *_scd4xSensor;
 /**
  * Select the current i2c bus by index.
  * All following i2c operations will be directed at that bus.
@@ -31,9 +31,9 @@ int16_t sensirion_i2c_hal_select_bus(uint8_t bus_idx)
  * Initialize all hard- and software components that are needed for the I2C
  * communication.
  */
-void sensirion_i2c_hal_init(void)
+void sensirion_i2c_hal_init(CO2Detection::SCD4xSensor *co2Sensor)
 {
-    // _scd4xSensor = co2Sensor;
+    _scd4xSensor = co2Sensor;
 }
 
 /**
@@ -56,20 +56,19 @@ void sensirion_i2c_hal_free(void)
  */
 int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t *data, uint16_t count)
 {
-    return ESP_OK;
-    // try
-    // {
-    //     _scd4xSensor->getBus()->syncWrite(I2CAddress(address), {address});
-    //     vector<uint8_t> dataVector = _scd4xSensor->getBus()->syncRead(I2CAddress(address), count);
-    //     memcpy(data, dataVector.data(), count);
-    //     return ESP_OK;
-    // }
-    // catch (const I2CException &e)
-    // {
-    //     ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
-    //     ESP_LOGI("TAG", "Couldn't read sensor!");
-    //     return ESP_FAIL;
-    // }
+    try
+    {
+        _scd4xSensor->getBus()->syncWrite(I2CAddress(address), {address});
+        vector<uint8_t> dataVector = _scd4xSensor->getBus()->syncRead(I2CAddress(address), count);
+        memcpy(data, dataVector.data(), count);
+        return ESP_OK;
+    }
+    catch (const I2CException &e)
+    {
+        ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
+        ESP_LOGI("TAG", "Couldn't read sensor!");
+        return ESP_FAIL;
+    }
 }
 
 /**
@@ -85,24 +84,23 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t *data, uint16_t count)
  */
 int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t *data, uint16_t count)
 {
-    return ESP_OK;
-    // try
-    // {
-    //     vector<uint8_t> dataVector;
-    //     dataVector.push_back(address);
-    //     for (int i = 0; i < len; i++)
-    //     {
-    //         dataVector.push_back(data[i]);
-    //     }
-    //     _scd4xSensor->getBus()->syncWrite(I2CAddress(address), dataVector);
-    //     return ESP_OK;
-    // }
-    // catch (const I2CException &e)
-    // {
-    //     ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
-    //     ESP_LOGI("TAG", "Couldn't write sensor!");
-    //     return ESP_FAIL;
-    // }
+    try
+    {
+        vector<uint8_t> dataVector;
+        dataVector.push_back(address);
+        for (int i = 0; i < len; i++)
+        {
+            dataVector.push_back(data[i]);
+        }
+        _scd4xSensor->getBus()->syncWrite(I2CAddress(address), dataVector);
+        return ESP_OK;
+    }
+    catch (const I2CException &e)
+    {
+        ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
+        ESP_LOGI("TAG", "Couldn't write sensor!");
+        return ESP_FAIL;
+    }
 }
 
 /**
