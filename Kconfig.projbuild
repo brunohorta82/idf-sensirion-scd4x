@@ -1,6 +1,6 @@
-menu "Bosch BHI260AB Sensor"
-    config BME688_ADDRESS
+menu "Sensirion SCD4x Sensor"
+    config SCD4X_ADDRESS
         hex
-        prompt "Gyro/Accel BHI260AB Sensor Address"
-        default 0x29
+        prompt "CO2 SCD4x Sensor Address"
+        default 0x62
 endmenu
