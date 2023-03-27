@@ -33,7 +33,6 @@
 #define SENSIRION_I2C_HAL_H
 
 #include "../driver/sensirion_config.h"
-#include "SCD4xSensor.hpp"
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,7 +54,7 @@ int16_t sensirion_i2c_hal_select_bus(uint8_t bus_idx);
  * Initialize all hard- and software components that are needed for the I2C
  * communication.
  */
-void sensirion_i2c_hal_init(CO2Detection::SCD4xSensor *co2Sensor);
+void sensirion_i2c_hal_init(void);
 
 /**
  * Release all resources initialized by sensirion_i2c_hal_init().
@@ -85,8 +84,7 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count);
  * @param count   number of bytes to read from the buffer and send over I2C
  * @returns 0 on success, error code otherwise
  */
-int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
-                               uint16_t count);
+int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data, uint16_t count);
 
 /**
  * Sleep for a given number of microseconds. The function should delay the
