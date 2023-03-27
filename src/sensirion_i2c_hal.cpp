@@ -1,4 +1,4 @@
-#include "sensirion_i2c_hal.h"
+#include "sensirion_i2c_hal.hpp"
 #include "../driver/sensirion_common.h"
 #include "../driver/sensirion_config.h"
 #include "freertos/Freertos.h"

@@ -36,10 +36,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "scd4x_i2c.h"
-#include "sensirion_common.h"
-#include "sensirion_i2c.h"
-#include "sensirion_i2c_hal.h"
+#include "scd4x_i2c.hpp"
+#include "sensirion_common.hpp"
+#include "sensirion_i2c.hpp"
+#include "sensirion_i2c_hal.hpp"
 
 #define SCD4X_I2C_ADDRESS 98
 

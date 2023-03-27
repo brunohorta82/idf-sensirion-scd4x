@@ -43,7 +43,7 @@
 extern "C" {
 #endif
 
-#include "sensirion_config.h"
+#include "sensirion_config.hpp"
 
 /**
  * scd4x_start_periodic_measurement() - start periodic measurement, signal

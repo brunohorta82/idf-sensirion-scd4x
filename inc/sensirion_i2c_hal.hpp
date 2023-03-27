@@ -32,7 +32,7 @@
 #ifndef SENSIRION_I2C_HAL_H
 #define SENSIRION_I2C_HAL_H
 
-#include "../driver/sensirion_config.h"
+#include "../driver/sensirion_config.hpp"
 
 #ifdef __cplusplus
 extern "C" {

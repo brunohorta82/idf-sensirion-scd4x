@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "sensirion_common.h"
-#include "sensirion_config.h"
+#include "sensirion_common.hpp"
+#include "sensirion_config.hpp"
 
 uint16_t sensirion_common_bytes_to_uint16_t(const uint8_t* bytes) {
     return (uint16_t)bytes[0] << 8 | (uint16_t)bytes[1];
