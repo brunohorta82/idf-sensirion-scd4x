@@ -5,9 +5,9 @@
 #include "freertos/task.h"
 #include <esp_log.h>
 #include "I2C.hpp"
-#include "sensirion_i2c_hal.h"
-#include "../driver/scd4x_i2c.h"
-#include "../driver/sensirion_common.h"
+#include "sensirion_i2c_hal.hpp"
+#include "../driver/scd4x_i2c.hpp"
+#include "../driver/sensirion_common.hpp"
 
 #define NUM_USED_OUTPUTS 9
 

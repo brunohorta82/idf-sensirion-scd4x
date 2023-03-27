@@ -1,6 +1,6 @@
 #include "sensirion_i2c_hal.hpp"
-#include "../driver/sensirion_common.h"
-#include "../driver/sensirion_config.h"
+#include "../driver/sensirion_common.hpp"
+#include "../driver/sensirion_config.hpp"
 #include "freertos/Freertos.h"
 #include "freertos/task.h"
 #include "esp_timer.h"
