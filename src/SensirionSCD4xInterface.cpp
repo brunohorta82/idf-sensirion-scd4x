@@ -13,7 +13,6 @@
 
 using namespace std;
 
-struct bhy2_dev bhy2Device;
 CO2Detection::SCD4xSensor *_scd4xSensor;
 
 esp_err_t initSCD4x(CO2Detection::SCD4xSensor *co2Sensor)
@@ -86,9 +85,9 @@ void startSCD4xLoop()
         }
         else
         {
-            printf("CO2: %u\n", co2);
-            printf("Temperature: %d m°C\n", temperature);
-            printf("Humidity: %d mRH\n", humidity);
+            // printf("CO2: %u\n", co2);
+            // printf("Temperature: %d m°C\n", temperature);
+            // printf("Humidity: %d mRH\n", humidity);
         }
     }
 }
