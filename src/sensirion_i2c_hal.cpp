@@ -59,7 +59,7 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t *data, uint16_t count)
 {
     try
     {
-        _scd4xSensor->getBus()->syncWrite(I2CAddress(address), {address});
+        // _scd4xSensor->getBus()->syncWrite(I2CAddress(address), {address});
         vector<uint8_t> dataVector = _scd4xSensor->getBus()->syncRead(I2CAddress(address), count);
         memcpy(data, dataVector.data(), count);
         return ESP_OK;

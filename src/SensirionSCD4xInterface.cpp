@@ -19,6 +19,8 @@ esp_err_t initSCD4x(CO2Detection::SCD4xSensor *co2Sensor)
 {
     int16_t error = 0;
     _co2Sensor = co2Sensor;
+    sensirion_i2c_hal_sleep_usec(1000000);
+    
     sensirion_i2c_hal_init(co2Sensor);
 
     // Clean up potential SCD40 states
