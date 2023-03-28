@@ -13,12 +13,12 @@
 
 using namespace std;
 
-CO2Detection::SCD4xSensor *_scd4xSensor;
+CO2Detection::SCD4xSensor *_co2Sensor;
 
 esp_err_t initSCD4x(CO2Detection::SCD4xSensor *co2Sensor)
 {
     int16_t error = 0;
-
+    _co2Sensor = co2Sensor;
     sensirion_i2c_hal_init(co2Sensor);
 
     // Clean up potential SCD40 states
@@ -52,42 +52,39 @@ esp_err_t initSCD4x(CO2Detection::SCD4xSensor *co2Sensor)
     return ESP_OK;
 }
 
-void startSCD4xLoop()
+esp_err_t readSCD4x()
 {
     int16_t error = 0;
-    while (1)
+    bool data_ready_flag = false;
+    error = scd4x_get_data_ready_flag(&data_ready_flag);
+    if (error)
     {
-        // Read Measurement
-        sensirion_i2c_hal_sleep_usec(100000);
-        bool data_ready_flag = false;
-        error = scd4x_get_data_ready_flag(&data_ready_flag);
-        if (error)
-        {
-            printf("Error executing scd4x_get_data_ready_flag(): %i\n", error);
-            continue;
-        }
-        if (!data_ready_flag)
-        {
-            continue;
-        }
-
-        uint16_t co2;
-        int32_t temperature;
-        int32_t humidity;
-        error = scd4x_read_measurement(&co2, &temperature, &humidity);
-        if (error)
-        {
-            printf("Error executing scd4x_read_measurement(): %i\n", error);
-        }
-        else if (co2 == 0)
-        {
-            printf("Invalid sample detected, skipping.\n");
-        }
-        else
-        {
-            // printf("CO2: %u\n", co2);
-            // printf("Temperature: %d m°C\n", temperature);
-            // printf("Humidity: %d mRH\n", humidity);
-        }
+        printf("Error executing scd4x_get_data_ready_flag(): %i\n", error);
+        return ESP_FAIL;
     }
+    if (!data_ready_flag)
+    {
+        return ESP_FAIL;
+    }
+
+    uint16_t co2;
+    int32_t temperature;
+    int32_t humidity;
+    error = scd4x_read_measurement(&co2, &temperature, &humidity);
+    if (error)
+    {
+        printf("Error executing scd4x_read_measurement(): %i\n", error);
+        return ESP_FAIL;
+    }
+    if (co2 == 0)
+    {
+        printf("Invalid sample detected, skipping.\n");
+        return ESP_FAIL;
+    }
+
+    printf("CO2: %u\n", co2);
+    printf("Temperature: %ld m°C\n", temperature);
+    printf("Humidity: %ld mRH\n", humidity);
+    _co2Sensor->setCO2(co2, temperature, humidity);
+    return ESP_OK;
 }

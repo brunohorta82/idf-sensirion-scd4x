@@ -10,7 +10,9 @@ namespace CO2Detection
     {
     private:
         shared_ptr<I2CMaster> i2cMasterBus;
-
+        uint16_t co2 = {0};
+        int32_t temperature = {0};
+        int32_t humidity = {0};
     public:
         SCD4xSensor(shared_ptr<I2CMaster> i2cMasterBus)
         {
@@ -21,6 +23,24 @@ namespace CO2Detection
             return this->i2cMasterBus;
         }
         esp_err_t init();
-        void startSensorLoop();
+        esp_err_t readCO2();
+        constexpr void setCO2(uint16_t co2, int32_t temperature, int32_t humidity)
+        {
+            this->co2 = co2;
+            this->temperature = temperature;
+            this->humidity = humidity;
+        };
+        constexpr uint16_t getCO2()
+        {
+            return co2;
+        }
+        constexpr int32_t getTemperature()
+        {
+            return temperature;
+        };
+        constexpr int32_t getHumidity()
+        {
+            return humidity;
+        };
     };
 }

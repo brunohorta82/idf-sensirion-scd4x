@@ -1,12 +1,13 @@
 #include "sensirion_i2c_hal.hpp"
+#include "SCD4xSensor.hpp"
 #include "../driver/sensirion_common.hpp"
 #include "../driver/sensirion_config.hpp"
 #include "freertos/Freertos.h"
 #include "freertos/task.h"
 #include "esp_timer.h"
+#include <esp_log.h>
 #include <memory>
 #include <cstring>
-
 
 CO2Detection::SCD4xSensor *_scd4xSensor;
 /**
@@ -65,8 +66,8 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t *data, uint16_t count)
     }
     catch (const I2CException &e)
     {
-        ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
-        ESP_LOGI("TAG", "Couldn't read sensor!");
+        ESP_LOGI("CO2_HAL", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
+        ESP_LOGI("CO2_HAL", "Couldn't read sensor!");
         return ESP_FAIL;
     }
 }
@@ -87,8 +88,7 @@ int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t *data, uint16_t co
     try
     {
         vector<uint8_t> dataVector;
-        dataVector.push_back(address);
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < count; i++)
         {
             dataVector.push_back(data[i]);
         }
@@ -97,8 +97,8 @@ int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t *data, uint16_t co
     }
     catch (const I2CException &e)
     {
-        ESP_LOGI("TAG", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
-        ESP_LOGI("TAG", "Couldn't write sensor!");
+        ESP_LOGI("CO2_HAL", "I2C Exception with error: %s (0x%X)", e.what(), e.error);
+        ESP_LOGI("CO2_HAL", "Couldn't write sensor!");
         return ESP_FAIL;
     }
 }

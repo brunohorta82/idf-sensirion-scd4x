@@ -9,8 +9,8 @@ namespace CO2Detection
         return initSCD4x(this);
     }
 
-    void SCD4xSensor::startSensorLoop()
+    esp_err_t SCD4xSensor::readCO2()
     {
-        startSCD4xLoop();
+        return readSCD4x();
     }
 }
